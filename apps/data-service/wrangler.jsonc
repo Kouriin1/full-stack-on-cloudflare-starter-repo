@@ -11,4 +11,62 @@
 	"observability": {
 		"enabled": true,
 	},
+	"ai": {
+		"binding": "AI"
+
+	},
+	"r2_buckets": [{
+		"binding": "BUCKET",
+		"bucket_name": "smart-links-eval-stage",
+		"remote": true
+
+	}],
+
+	"browser": {
+		"binding": "VIRTUAL_BROWSER"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "7dfe7266-6e31-4ffd-a05c-5d798961f28e",
+			"remote": true
+		},
+	],
+	"kv_namespaces": [
+		{
+
+		"binding": "CACHE",
+		"id": "0bf80eb6d1634f4e82e6ecdb7d372cc7",
+		"remote": true
+		
+	}
+],
+
+"queues": {
+	"consumers": [{
+		"queue": "smart-links-data-queue-stage",
+		
+	}],
+	"producers": [
+	{
+		"binding": "QUEUE",
+		"queue": "smart-links-data-queue-stage",
+
+	}]
+	
+},
+
+"workflows": [
+
+	{
+		"binding": "DESTINATION_EVALUTATION_WORKFLOW",
+		"name": "destination-evaluation-workflow",
+		"class_name": "DestinationEvaluationWorkflow"
+
+
+	}
+],
+
+
+
 }
