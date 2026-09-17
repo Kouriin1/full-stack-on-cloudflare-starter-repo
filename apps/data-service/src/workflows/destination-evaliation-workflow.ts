@@ -17,6 +17,7 @@ export class DestinationEvaluationWorkflow extends WorkflowEntrypoint<Env, Desti
 					delay: 1000,
 				},
 			},
+			
 			async () => {
 				const evaluationId = uuidv4();
 				const data = await collectDestinationInfo(this.env, event.payload.destinationUrl);
@@ -37,6 +38,7 @@ export class DestinationEvaluationWorkflow extends WorkflowEntrypoint<Env, Desti
 					evaluationId: evaluationId,
 				};
 			},
+		
 		);
 
 		const aiStatus = await step.do(
@@ -52,7 +54,7 @@ export class DestinationEvaluationWorkflow extends WorkflowEntrypoint<Env, Desti
 			},
 		);
 
-		await step.do('Save evaluation in database', async () => {
+			await step.do('Save evaluation in database', async () => {
 			return await addEvaluation({
 				evaluationId: evaluationInfo.evaluationId,
 				linkId: event.payload.linkId,
@@ -62,5 +64,6 @@ export class DestinationEvaluationWorkflow extends WorkflowEntrypoint<Env, Desti
 				destinationUrl: event.payload.destinationUrl,
 			});
 		});
+
 	}
 }

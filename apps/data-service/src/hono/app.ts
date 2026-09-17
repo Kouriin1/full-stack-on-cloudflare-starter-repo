@@ -1,12 +1,26 @@
 import { Hono } from "hono";
 import { getLink } from "@repo/data-ops/queries/links";
 import { cloudflareInfoSchema } from "@repo/data-ops/zod-schema/links";
-import { getDestinationForCountry, getRoutingDestinationFromKv } from "./helpers/rauting-ops";
+import { getDestinationForCountry, getRoutingDestinationFromKv, captureLinkClickInBackground } from "./helpers/rauting-ops";
 import { LinkClickMessageType } from "@repo/data-ops/zod-schema/queue";
 
 
 export const App = new Hono<{Bindings: Env}>();
 
+
+App.get('/click-socket', async (c) => {
+  const upgradeHeader = c.req.header('Upgrade');
+	if (!upgradeHeader || upgradeHeader !== 'websocket') {
+		return c.text('Expected Upgrade: websocket', 426);
+	}
+
+const accountId = c.req.header('account-id')
+
+if (!accountId) return  c.text('No Headers', 404);
+  const doId = c.env.LINK_CLICK_TRACKER_OBJECT.idFromName(accountId);
+	const stub = c.env.LINK_CLICK_TRACKER_OBJECT.get(doId);
+  return await stub.fetch(c.req.raw)
+})
 
 
 
@@ -35,7 +49,7 @@ App.get('/:id', async (c) => {
         "type": "LINK_CLICK",
         data: {
             id: id,
-            country: destination,
+            country: headers.country,
             destination: destination,
             accountId: LinkInfo.accountId,
             latitude: headers.latitude,
@@ -46,7 +60,7 @@ App.get('/:id', async (c) => {
     }
     
     c.executionCtx.waitUntil(
-        c.env.QUEUE.send(queueMessage)
+       captureLinkClickInBackground(c.env, queueMessage)
     );
 
     return c.redirect(destination);

@@ -4,7 +4,9 @@ import { initDatabase } from '@repo/data-ops/database'
 import { QueueMessageSchema } from '@repo/data-ops/zod-schema/queue';
 import { handleLinkClick } from './queue-handlers/link-clicks';
 export { DestinationEvaluationWorkflow } from './workflows/destination-evaliation-workflow';
-export { EvaluationsScheduler} from "./durable-objects/evaluations-schuduler";
+export {LinkClickTracker} from "./durable-objects/link-click-tracker";
+export {EvaluationScheduler} from "./durable-objects/evaluations-schuduler";
+
 
 export default class DataService extends WorkerEntrypoint<Env> {
 
