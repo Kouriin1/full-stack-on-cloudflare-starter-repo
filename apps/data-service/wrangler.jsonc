@@ -11,7 +11,9 @@
 	"observability": {
 		"enabled": true,
 	},
-	"ai": {
+	"env": {
+		"stage": {
+		"ai": {
 		"binding": "AI"
 
 	},
@@ -88,6 +90,92 @@
 		"new_sqlite_classes": ["LinkClickTracker"]
 	}
 ]
+		},
+
+		"production": {
+		"ai": {
+		"binding": "AI"
+
+	},
+	"r2_buckets": [{
+		"binding": "BUCKET",
+		"bucket_name": "smart-links-eval-production",
+		"remote": true
+
+	}],
+
+	"browser": {
+		"binding": "VIRTUAL_BROWSER"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_id": "1b437151-a51a-4a2f-a209-268d83fc1ac5",
+			"remote": true
+		},
+	],
+	"kv_namespaces": [
+		{
+
+		"binding": "CACHE",
+		"id": "d5e82245b4b8445f92c25541f9d84dbf",
+		
+	}
+],
+
+"queues": {
+	"consumers": [{
+		"queue": "smart-links-data-queue-production",
+		"dead_letter_queue": "smart-links-data-dead-letter-production"
+	},
+	{
+		"queue": "smart-links-data-dead-letter-production",
+		"retry_delay": 0
+	}
+],
+	"producers": [
+	{
+		"binding": "QUEUE",
+		"queue": "smart-links-data-queue-production",
+
+	}]
+	
+},
+
+"workflows": [
+
+	{
+		"binding": "DESTINATION_EVALUTATION_WORKFLOW",
+		"name": "destination-evaluation-workflow-production",
+		"class_name": "DestinationEvaluationWorkflow"
+
+
+	}
+],
+"durable_objects": {
+	"bindings": [{
+		"name": "EVALUATION_SCHEDULER",
+		"class_name": "EvaluationScheduler"
+	},
+	{
+		"class_name": "LinkClickTracker",
+		"name": "LINK_CLICK_TRACKER_OBJECT"
+	}
+]
+},
+
+"migrations": [
+	{
+		"tag": "v2",
+		"new_sqlite_classes": ["EvaluationScheduler"]
+	},
+	{
+		"tag": "v3",
+		"new_sqlite_classes": ["LinkClickTracker"]
+	}
+]
+		}
+	}
 
 
 
