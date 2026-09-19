@@ -293,8 +293,8 @@ importers:
         specifier: ^5.1.6
         version: 5.1.6
       stripe:
-        specifier: ^18.5.0
-        version: 18.5.0(@types/node@22.19.7)
+        specifier: ^22.6.2
+        version: 22.6.2(@types/node@22.19.7)
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -4404,11 +4404,11 @@ packages:
     resolution: {integrity: sha512-3Fs33IzKUby//9kCkCa1uRpinAoTvj6rJgQ2jrBEysoxEvfsclvXdna1amyEYbA2EKkjynuB4+L/kleCCaWTpA==}
     engines: {node: '>=12.*'}
 
-  stripe@18.5.0:
-    resolution: {integrity: sha512-Hp+wFiEQtCB0LlNgcFh5uVyKznpDjzyUZ+CNVEf+I3fhlYvh7rZruIg+jOwzJRCpy0ZTPMjlzm7J2/M2N6d+DA==}
-    engines: {node: '>=12.*'}
+  stripe@22.6.2:
+    resolution: {integrity: sha512-PwRE2scocvXqDKPiskMa5vRJEAEkq46W69XyUYmAwrNSLr675lQnfqLwnsndAWizwgihOWw/irLmoFRo3ez7ew==}
+    engines: {node: '>=18'}
     peerDependencies:
-      '@types/node': '>=12.x.x'
+      '@types/node': '>=18'
     peerDependenciesMeta:
       '@types/node':
         optional: true
@@ -8602,9 +8602,7 @@ snapshots:
       '@types/node': 25.0.9
       qs: 6.14.1
 
-  stripe@18.5.0(@types/node@22.19.7):
-    dependencies:
-      qs: 6.14.1
+  stripe@22.6.2(@types/node@22.19.7):
     optionalDependencies:
       '@types/node': 22.19.7
 

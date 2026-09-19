@@ -30,6 +30,19 @@ CREATE TABLE `session` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `session_token_unique` ON `session` (`token`);--> statement-breakpoint
 CREATE INDEX `session_userId_idx` ON `session` (`user_id`);--> statement-breakpoint
+CREATE TABLE `subscription` (
+	`id` text PRIMARY KEY NOT NULL,
+	`plan` text NOT NULL,
+	`reference_id` text NOT NULL,
+	`stripe_customer_id` text,
+	`stripe_subscription_id` text,
+	`status` text DEFAULT 'incomplete',
+	`period_start` integer,
+	`period_end` integer,
+	`cancel_at_period_end` integer DEFAULT false,
+	`seats` integer
+);
+--> statement-breakpoint
 CREATE TABLE `user` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -37,7 +50,8 @@ CREATE TABLE `user` (
 	`email_verified` integer DEFAULT false NOT NULL,
 	`image` text,
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
-	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
+	`stripe_customer_id` text
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint
